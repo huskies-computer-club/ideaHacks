@@ -127,6 +127,7 @@ class TrashBrain:
         # Display the message
         access_granted_label = tk.Label(new_window, text="You may now use this application.", bg="skyblue")
         access_granted_label.pack()
+        process = subprocess.run(["python","/home/ant/ideaHacks/python_scripts/communicate.py", self.userId])
 
         # Add a 'Finish' button
         finish_button = Button(new_window, text="Finish", command=new_window.destroy)
@@ -135,6 +136,7 @@ class TrashBrain:
     def finish_action(self):
         # Action to perform on clicking 'Finish' button
         print("Finish_action");
+        process.terminate()
         pass
 
 root = Tk()
