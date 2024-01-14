@@ -2,9 +2,16 @@ import tkinter as tk
 from tkinter import messagebox, StringVar, Entry, Label, Button, Tk, Toplevel
 import sqlite3
 import subprocess
+import resource
+
 
 
 isProcessOn = False
+
+def limit_cpu():
+    # Set the CPU time limit
+    # (soft limit, hard limit) in seconds
+    resource.setrlimit(resource.RLIMIT_CPU, (1, 1))
 
 def award_points(user_id, points):
     # Connect to SQLite database (change the database name if needed)
@@ -127,7 +134,7 @@ class TrashBrain:
         # Display the message
         access_granted_label = tk.Label(new_window, text="You may now use this application.", bg="skyblue")
         access_granted_label.pack()
-        process = subprocess.run(["python","/home/ant/ideaHacks/python_scripts/communicate.py", self.userId])
+        process = subprocess.run(["python","/home/ant/ideaHacks/python_scripts/communicate.py", self.userId],preexec_fn=limit_cpu )
 
         # Add a 'Finish' button
         finish_button = Button(new_window, text="Finish", command=new_window.destroy)
@@ -136,7 +143,6 @@ class TrashBrain:
     def finish_action(self):
         # Action to perform on clicking 'Finish' button
         print("Finish_action");
-        process.terminate()
         pass
 
 root = Tk()
